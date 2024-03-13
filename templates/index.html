@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Geo Space Cities</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <!--script src="{{ url_for('static', filename='js/jsplumb.browser-ui.umd.js') }}"></script-->
+        <!--script src="{{ url_for('static', filename='js/leader-line.min.js') }}"></script-->
+        
+        <style>
+            .outer-container {
+                display: grid;
+                grid-template-columns: 1fr 2fr 4fr;
+                grid-auto-rows: minmax(8vh , auto);
+                grid-gap: 10px; /* Adjust the gap between columns as needed */
+            }
+
+            .inner-container-left {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: top;
+                align-content: flex-start;
+                align-items: center;
+                text-align: center;
+                grid-gap: 10px; 
+            }
+
+            .slot {
+                aspect-ratio: 1 / 1;
+                width: calc(25% - 10px);
+                flex: 0 0 calc(25% - 10px);
+                border: 1px solid black;
+                border-radius: 5px; 
+                position: relative;
+                display: flex;
+                justify-content: center; /* Centers children horizontally */
+                align-items: center;
+            }
+
+            .inner-container-middle {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                align-content: center;
+                border: 1px solid black;
+                border-radius: 5px; 
+                padding: 20px;
+                background-color: aliceblue;
+            }
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 90%;
+                padding: 20px;
+                margin-bottom: 20px;
+                border: 1px solid black;
+                border-radius: 5px; 
+            }
+            .inner-container-right {
+                position: relative;
+                background-color: lightpink;
+                color: black;
+                padding: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="outer-container">
+            <div id="inner-container-left" class="inner-container-left">
+                {% for i in range(0, grid_size) %} 
+                    <div id="slot-{{i}}" class="slot" hx-get="/slot/load/{{i}}" hx-swap="outerHTML">
+                        {{ i }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="inner-container-middle">
+                <form id="form-{{i}}">
+                    <fieldset id="element-{{i}}" class="item">
+                        <legend>Element</legend>
+                        <select id="element-type" name="element-type">
+                            <option value="text">Text</option>
+                            <option value="image">Image</option>
+                        </select>
+                        <textarea id="text-content" name="text-content" rows="4" cols="50">Internet Artware</textarea>
+                    </fieldset>
+                    <fieldset id="element-{{i}}" class="item">
+                        <legend>Style</legend>
+                        <hr style="width: 100%; text-align: left; margin-left: 0; margin-bottom: 20px;">
+                        <label for="color">Color:</label>
+                        <input type="color" id="color" name="color">
+
+                        <label for="font">Font:</label>
+                        <select id="font" name="font">
+                            <option value="Arial">Arial</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <!-- Add more fonts as needed -->
+                        </select>
+
+                        <label for="font-size">Font Size:</label>
+                        <input type="number" id="font-size" name="font-size" value="46">
+
+                        <label for="font-weight">Font Weight:</label>
+                        <select id="font-weight" name="font-weight">
+                            <option value="normal" selected>Normal</option>
+                            <option value="bold">Bold</option>
+                        </select>
+
+                        <label for="tag">Tag:</label>
+                        <select id="tag" name="tag">
+                            <option value="">None</option>
+                            <option value="p">p</option>
+                            <option value="h1" selected>h1</option>
+                            <option value="h2">h2</option>
+                            <!-- Add more tags as needed -->
+                        </select>
+                    </fieldset>
+                    <fieldset id="element-{{i}}" class="item">
+                        <legend>Action</legend>
+                        <label for="font-size">Position:</label>
+                        <div>
+                            Top: <input type="number" id="font-size" name="font-size" value="200"><select id="top-unit" name="top-unit"><option value="px" selected>px</option><option value="%">%</option></select><br/>
+                            Left: <input type="number" id="font-size" name="font-size" value="20"><select id="top-unit" name="top-unit"><option value="px">px</option><option value="%" selected>%</option></select><br/>
+                        </div> 
+                        <label for="transform">Transform:</label>
+                        <select id="transform-type" name="transform-type">
+                            <option value="rotate">Rotate</option>
+                            <option value="flip">Flip</option>
+                            <option value="skew">Skew</option>
+                        </select>
+                        <label for="font-size">Degrees:</label>
+                        <input type="number" id="transform-value" name="transform-value" value="45">
+                    </fieldset>
+                    <button type="submit">Submit</button>
+                </form>
+                   
+            </div>
+            <div id="inner-container-right" class="inner-container-right">
+                <h1 style="position: absolute; top: 200px; left: 20%; font-size: 46px; font-family: 'Arial';  transform: rotate(45deg);">
+                    Internet Artware
+                </h1>
+            </div>
+        </div>
+    </body>
+   <script>
+        let form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+            console.log("form submitted");
+            e.preventDefault();
+            new FormData(form);
+        });
+        form.addEventListener("formdata", (e) => {
+            console.log("formdata fired");
+            const data = e.formData;
+            let form_json = {}
+            for (const pair of data.entries()) {
+                //console.log(pair[0], pair[1]);
+                form_json[pair[0]] = pair[1];
+            }
+            console.log(form_json);
+            let div = document.createElement("div");
+            if (form_json["element-type"] == "text") {
+                let text = document.createTextNode(form_json["text-content"]);
+                div.appendChild(text);
+            } else if (form_json["element-type"] == "image") {
+                let img = document.createElement("img");
+                div.appendChild(img);
+            }
+            
+            let display = document.getElementById("inner-container-right");
+            display.appendChild(div);
+        });
+   </script>
+</html>

@@ -1,0 +1,121 @@
+<script>
+    let text_template = {
+        type: "text",
+        content: "",
+        fields: [
+            { 
+                name: "content", 
+                groups: [
+                    {
+                        label: "Content",
+                        inputs: [
+                            {
+                                tag: "textarea", 
+                                attributes: [
+                                    {name: "id", value: "text-content"}, 
+                                    {name: "name", value: "text-content"}, 
+                                    {name: "rows", value: "4"}, 
+                                    {name: "cols", value: "50"}
+                                ], 
+                                default_value: "Internet Artware" 
+                            }
+                        ]
+                    }
+                ]
+            },
+            { 
+                name: "color", 
+                groups: [
+                    {
+                        label: "Color",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "color"},
+                                    {name: "id", value: "color"}, 
+                                    {name: "name", value: "color"}
+                                ], 
+                                default_value: "black" 
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "font-family", 
+                groups: [
+                    {
+                        label: "Font Family",
+                        inputs: [
+                            {
+                                tag: "select", 
+                                attributes: [
+                                    {name: "id", value: "font"}, 
+                                    {name: "name", value: "font"}
+                                ], 
+                                options: [
+                                    {value: "Arial", text: "Arial"},
+                                    {value: "Verdana", text: "Verdana"},
+                                    {value: "Times New Roman", text: "Times New Roman"}
+                                ],
+                                default_value: "Arial"
+                            }
+                        ]
+                    }
+                ]
+            },
+            { 
+                name: "font-size", 
+                groups: [
+                    {
+                        label: "Font Size",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "font-size"}, 
+                                    {name: "name", value: "font-size"}
+                                ], 
+                                default_value: "46" 
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "font-weight", 
+                groups: [
+                    {
+                        label: "Font Weight",
+                        inputs: [
+                            {
+                                tag: "select", 
+                                attributes: [
+                                    {name: "id", value: "font-weight"}, 
+                                    {name: "name", value: "font-weight"}
+                                ], 
+                                options: [
+                                    {value: "normal", text: "normal"},
+                                    {value: "bold", text: "bold"}
+                                ],
+                                default_value: "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+        ],
+    };
+</script>
+<script>
+    console.log(text_template);
+    var style_fieldset = generateFieldsetFromTemplate("style", text_template);
+    //var action_fieldset = generateFieldsetFromTemplate("action", action_template);
+    console.log(style_fieldset);
+    var container = document.getElementById('form');
+    var submitButton = document.getElementById('submit');
+    container.insertBefore(style_fieldset, submitButton);
+    //container.insertBefore(action_fieldset, submitButton);
+</script>

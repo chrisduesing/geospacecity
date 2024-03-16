@@ -11,9 +11,9 @@ def home():
 def load_slot(slot_number):
     return render_template('slot.html', slot_number=slot_number)
 
-@app.route('/element/new', methods=['GET'])
+@app.route('/content/text/new', methods=['GET'])
 def new_element():
-    return render_template('element.html')
+    return render_template('text.html')
 
 @app.route('/style/new', methods=['GET'])
 def new_style():

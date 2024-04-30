@@ -1,0 +1,40 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "rotate", 
+                groups: [
+                    {
+                        label: "Rotate Amount",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "rotate"}, 
+                                    {name: "name", value: "rotate"}
+                                ], 
+                                default_value: "45" 
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "rotate-unit"},
+                                    {name: "name", value: "rotate-unit"}
+                                ],
+                                options: [
+                                    {value: "deg", text: "deg"},
+                                    {value: "rad", text: "rad"}
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

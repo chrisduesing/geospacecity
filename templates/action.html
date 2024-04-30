@@ -1,64 +1,7 @@
 <script>
-    let action_template = {
+    templates["action_template_{{slot_number}}"] = {
         type: "action",
         fields: [
-            { 
-                name: "position",
-                groups: [
-                    {
-                        label: "Top",
-                        inputs: [
-                            {
-                                tag: "input",
-                                attributes: [
-                                    {name: "type", value: "number"},
-                                    {name: "id", value: "top"},
-                                    {name: "name", value: "top"}
-                                ],
-                                default_value: "200"
-                            },
-                            {
-                                tag: "select",
-                                attributes: [
-                                    {name: "id", value: "top-unit"},
-                                    {name: "name", value: "top-unit"}
-                                ],
-                                options: [
-                                    {value: "px", text: "px"},
-                                    {value: "%", text: "%"}
-                                ],
-                                default_value: "px"
-                            }
-                        ]
-                    },
-                    {
-                        label: "Left",
-                        inputs: [
-                            {
-                                tag: "input",
-                                attributes: [
-                                    {name: "type", value: "number"},
-                                    {name: "id", value: "left"},
-                                    {name: "name", value: "left"}
-                                ],
-                                default_value: "20"
-                            },
-                            {
-                                tag: "select",
-                                attributes: [
-                                    {name: "id", value: "left-unit"},
-                                    {name: "name", value: "left-unit"}
-                                ],
-                                options: [
-                                    {value: "px", text: "px"},
-                                    {value: "%", text: "%"}
-                                ],
-                                default_value: "%"
-                            }
-                        ]
-                    }
-                ]
-            },
             {
                 name: "transform", 
                 groups: [
@@ -93,4 +36,6 @@
             }
         ]
     };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template"]), document.getElementById('action-fieldset'));
 </script>

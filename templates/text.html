@@ -1,5 +1,33 @@
+<fieldset id="action-fieldset" class="item">
+    <legend>Action</legend>
+    <select id="element-type" name="element-type" onchange="handleSelectionChange(this)">
+        <option value="">None</option>
+        <option value="/action/rotate/new">Rotate</option>
+        <option value="/action/flip/new">Flip</option>
+    </select>
+</fieldset>
+<button id="submit" type="submit" hx-get="content/new" hx-target="#form" hx-trigger="finishedAddingContent">Submit</button>
+
 <script>
-    let text_template = {
+    document.getElementById('submit').addEventListener('click', (event) => {
+        event.target.dispatchEvent(new CustomEvent('finishedAddingContent'));
+    });
+</script>
+<script>
+function handleSelectionChange(selectElement) {
+    const value = selectElement.value;
+    if (value) {
+        // Using HTMX to dynamically load the selected page into the #action-fieldset
+        // This assumes you have HTMX loaded and configured in your project
+        // It triggers a 'get' request to the value (URL) of the selected option
+        // And replaces the content of #action-fieldset with the response
+        // Make sure the server responds with a partial HTML that can replace the fieldset's content
+        htmx.ajax('GET', value, '#action-fieldset');
+    }
+}
+</script>
+<script>
+    templates["content_template_{{slot_number}}"] = {
         type: "text",
         content: "",
         fields: [
@@ -7,7 +35,7 @@
                 name: "content", 
                 groups: [
                     {
-                        label: "Content",
+                        label: "Text",
                         inputs: [
                             {
                                 tag: "textarea", 
@@ -18,11 +46,28 @@
                                     {name: "cols", value: "50"}
                                 ], 
                                 default_value: "Internet Artware" 
+                            },
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "hidden"},
+                                    {name: "name", value: "element-type"},
+                                    {name: "value", value: "text"}
+                                ], 
+                                default_value: "text"
                             }
                         ]
                     }
                 ]
-            },
+            }
+        ]
+    };
+</script>
+<script>
+    templates["style_template_{{slot_number}}"] = {
+        type: "text",
+        content: "",
+        fields: [
             { 
                 name: "color", 
                 groups: [
@@ -51,8 +96,8 @@
                             {
                                 tag: "select", 
                                 attributes: [
-                                    {name: "id", value: "font"}, 
-                                    {name: "name", value: "font"}
+                                    {name: "id", value: "font-family"}, 
+                                    {name: "name", value: "font-family"}
                                 ], 
                                 options: [
                                     {value: "Arial", text: "Arial"},
@@ -79,6 +124,16 @@
                                     {name: "name", value: "font-size"}
                                 ], 
                                 default_value: "46" 
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "font-size-unit"},
+                                    {name: "name", value: "font-size-unit"}
+                                ],
+                                options: [
+                                    {value: "px", text: "px"}
+                                ]
                             }
                         ]
                     }
@@ -110,12 +165,72 @@
     };
 </script>
 <script>
-    console.log(text_template);
-    var style_fieldset = generateFieldsetFromTemplate("style", text_template);
-    //var action_fieldset = generateFieldsetFromTemplate("action", action_template);
-    console.log(style_fieldset);
-    var container = document.getElementById('form');
-    var submitButton = document.getElementById('submit');
-    container.insertBefore(style_fieldset, submitButton);
-    //container.insertBefore(action_fieldset, submitButton);
+    templates["position_template_{{slot_number}}"] = {
+        type: "position",
+        fields: [
+            { 
+                name: "position",
+                groups: [
+                    {
+                        label: "Top",
+                        inputs: [
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "top"},
+                                    {name: "name", value: "top"}
+                                ],
+                                default_value: "200"
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "top-unit"},
+                                    {name: "name", value: "top-unit"}
+                                ],
+                                options: [
+                                    {value: "px", text: "px"},
+                                    {value: "%", text: "%"}
+                                ],
+                                default_value: "px"
+                            }
+                        ]
+                    },
+                    {
+                        label: "Left",
+                        inputs: [
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "left"},
+                                    {name: "name", value: "left"}
+                                ],
+                                default_value: "20"
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "left-unit"},
+                                    {name: "name", value: "left-unit"}
+                                ],
+                                options: [
+                                    {value: "px", text: "px"},
+                                    {value: "%", text: "%"}
+                                ],
+                                default_value: "%"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script>
+<script>
+    document.getElementById('form').insertBefore(generateFieldsetFromTemplate("content", templates["content_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+    document.getElementById('form').insertBefore(generateFieldsetFromTemplate("style", templates["style_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+    document.getElementById('form').insertBefore(generateFieldsetFromTemplate("position", templates["position_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+
 </script>

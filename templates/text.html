@@ -3,7 +3,11 @@
     <select id="element-type" name="element-type" onchange="handleSelectionChange(this)">
         <option value="">None</option>
         <option value="/action/rotate/new">Rotate</option>
-        <option value="/action/flip/new">Flip</option>
+        <option value="/action/skew/new">Skew</option>
+        <option value="/action/scaleX/new">ScaleX</option>
+        <option value="/action/scaleY/new">ScaleY</option>
+        <option value="/action/blink/new">Blink</option>
+        <option value="/action/marquee/new">Marquee</option>
     </select>
 </fieldset>
 <button id="submit" type="submit" hx-get="content/new" hx-target="#form" hx-trigger="finishedAddingContent">Submit</button>

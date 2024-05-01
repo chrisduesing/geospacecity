@@ -1,0 +1,30 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "scaleY", 
+                groups: [
+                    {
+                        label: "scaleY Amount",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "scaleY"}, 
+                                    {name: "name", value: "scaleY"}
+                                ], 
+                                default_value: "10" 
+                            },
+                            
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

@@ -1,0 +1,40 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "skew", 
+                groups: [
+                    {
+                        label: "Skew Amount",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "skew"}, 
+                                    {name: "name", value: "skew"}
+                                ], 
+                                default_value: "45" 
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "skew-unit"},
+                                    {name: "name", value: "skew-unit"}
+                                ],
+                                options: [
+                                    {value: "deg", text: "deg"},
+                                    {value: "rad", text: "rad"}
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

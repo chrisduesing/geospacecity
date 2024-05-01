@@ -52,6 +52,24 @@
                 height: 100vh; /* Full page height */
                 overflow: hidden;
             }
+
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+            .blink {
+                animation: blink 1s step-start infinite;
+            }
+
+            @keyframes marquee {
+                from { transform: translateX(100%); }
+                to { transform: translateX(-100%); }
+            }
+            .marquee {
+                display: inline-block;
+                animation: marquee 10s linear infinite;
+            }
         </style>
     </head>
     <body>
@@ -145,15 +163,28 @@
 
             let style = "position: absolute; ";
             let keysToMerge = ["top", "left", "font-size"]; // Removed "rotate" from this list
-            let transformKeys = {"rotate": "rotate(%value%%unit%)"}; // Add more transform keys as needed
+            let transformKeys = ["rotate", "skew", "scaleX", "scaleY"]; // Add more transform keys as needed
+            let transformKeysWithoutUnits = ["scaleX", "scaleY"]; // Transform keys that don't have units
+            let animationKeys = ["blink", "marquee"]; // Add more animation keys as needed
+
+            function getTransformString(key, value, unit) {
+                if (transformKeysWithoutUnits.includes(key)) {
+                    style += 'transform-origin: center left; ';
+                    return `${key}(${value})`;
+                } else {
+                    return `${key}(${value}${unit})`;
+                }
+            }
 
             for (const key in form_json) {
                 if (form_json.hasOwnProperty(key) && key != "element-type" && key != "text-content") {
                     if (keysToMerge.includes(key)) {
                         style += `${key}: ${form_json[key]}${form_json[key + "-unit"]}; `;
-                    } else if (key in transformKeys) {
-                        let transformValue = transformKeys[key].replace('%value%', form_json[key]).replace('%unit%', form_json[key + "-unit"]);
+                    } else if (transformKeys.includes(key)) {
+                        let transformValue = getTransformString(key, form_json[key], form_json[key + "-unit"]);
                         style += `transform: ${transformValue}; `;
+                    } else if (animationKeys.includes(key)) {
+                        div.classList.add(key);
                     } else if (!key.endsWith("-unit")) {
                         style += `${key}: ${form_json[key]}; `;
                     }

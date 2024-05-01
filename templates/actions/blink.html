@@ -1,0 +1,29 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "blink", 
+                groups: [
+                    {
+                        label: "Blink",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "hidden"},
+                                    {name: "id", value: "blink"}, 
+                                    {name: "name", value: "blink"}
+                                ], 
+                                default_value: "blink" 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

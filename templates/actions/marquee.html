@@ -1,0 +1,29 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "marquee", 
+                groups: [
+                    {
+                        label: "Marquee",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "hidden"},
+                                    {name: "id", value: "marquee"}, 
+                                    {name: "name", value: "marquee"}
+                                ], 
+                                default_value: "marquee" 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

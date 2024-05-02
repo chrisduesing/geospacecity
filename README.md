@@ -18,7 +18,7 @@ Once you have Python + Flask
 
 > flask run
 
-### Installation for My Classmates
+## Installation for My Classmates
 
 If you don't have Python/Flask at all, and you are a bit bewildered, chances are you are a student in my Internet Artware class. Since we all have Macs, and it is unlikely you are a coder, I will direct these instructions directly to you and try to keep things very clear.
 
@@ -62,7 +62,7 @@ Now you want to grab the project itself. When you download the project it will c
 
 Now you want to get the code. You should have git, as we installed it in class if I am not mistaken. So type the following
 
-> https://github.com/chrisduesing/geospacecity.git
+> git clone https://github.com/chrisduesing/geospacecity.git
 
 This will create a subdirectory called geospacecity, go in to that directory
 

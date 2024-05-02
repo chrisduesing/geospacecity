@@ -52,6 +52,10 @@ def new_action_blink():
 def new_action_marquee():
     return render_template('actions/marquee.html')
 
+@app.route('/action/text-shadow/new', methods=['GET'])
+def new_action_text_shadow():
+    return render_template('actions/text-shadow.html')
+
 if __name__ == '__main__':
     #app.run(debug=True, port=5555)
     app.run(debug=False, port=80)

@@ -1,3 +1,135 @@
-<div>
-    Image template
-</div>
+<fieldset id="action-fieldset" class="item">
+    <legend>Action</legend>
+    <select id="element-type" name="element-type" onchange="handleSelectionChange(this)">
+        <option value="">None</option>
+        <option value="/action/rotate/new">Rotate</option>
+        <option value="/action/skew/new">Skew</option>
+        <option value="/action/scaleX/new">ScaleX</option>
+        <option value="/action/scaleY/new">ScaleY</option>
+    </select>
+</fieldset>
+<button id="submit" type="submit" hx-get="content/new" hx-target="#form" hx-trigger="finishedAddingContent">Submit</button>
+
+<script>
+    document.getElementById('submit').addEventListener('click', (event) => {
+        event.target.dispatchEvent(new CustomEvent('finishedAddingContent'));
+    });
+</script>
+<script>
+function handleSelectionChange(selectElement) {
+    const value = selectElement.value;
+    if (value) {
+        // Using HTMX to dynamically load the selected page into the #action-fieldset
+        // This assumes you have HTMX loaded and configured in your project
+        // It triggers a 'get' request to the value (URL) of the selected option
+        // And replaces the content of #action-fieldset with the response
+        // Make sure the server responds with a partial HTML that can replace the fieldset's content
+        htmx.ajax('GET', value, '#action-fieldset');
+    }
+}
+</script>
+<script>
+    templates["content_template_{{slot_number}}"] = {
+        type: "image",
+        content: "",
+        fields: [
+            { 
+                name: "content", 
+                groups: [
+                    {
+                        label: "Image",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "file"}, 
+                                    {name: "id", value: "image-input"}, 
+                                    {name: "accept", value: "image/*"}
+                                ]
+                            },
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "hidden"},
+                                    {name: "name", value: "element-type"},
+                                    {name: "value", value: "image"}
+                                ], 
+                                default_value: "image"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script>
+<script>
+    templates["position_template_{{slot_number}}"] = {
+        type: "position",
+        fields: [
+            { 
+                name: "position",
+                groups: [
+                    {
+                        label: "Top",
+                        inputs: [
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "top"},
+                                    {name: "name", value: "top"}
+                                ],
+                                default_value: "200"
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "top-unit"},
+                                    {name: "name", value: "top-unit"}
+                                ],
+                                options: [
+                                    {value: "px", text: "px"},
+                                    {value: "%", text: "%"}
+                                ],
+                                default_value: "px"
+                            }
+                        ]
+                    },
+                    {
+                        label: "Left",
+                        inputs: [
+                            {
+                                tag: "input",
+                                attributes: [
+                                    {name: "type", value: "number"},
+                                    {name: "id", value: "left"},
+                                    {name: "name", value: "left"}
+                                ],
+                                default_value: "20"
+                            },
+                            {
+                                tag: "select",
+                                attributes: [
+                                    {name: "id", value: "left-unit"},
+                                    {name: "name", value: "left-unit"}
+                                ],
+                                options: [
+                                    {value: "px", text: "px"},
+                                    {value: "%", text: "%"}
+                                ],
+                                default_value: "%"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script>
+<script>
+    document.getElementById('form').insertBefore(generateFieldsetFromTemplate("content", templates["content_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+    //document.getElementById('form').insertBefore(generateFieldsetFromTemplate("style", templates["style_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+    document.getElementById('form').insertBefore(generateFieldsetFromTemplate("position", templates["position_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+
+</script>

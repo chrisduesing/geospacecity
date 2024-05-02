@@ -29,7 +29,7 @@
                 border: 1px solid black;
                 border-radius: 5px; 
                 padding: 20px;
-                background-color: aliceblue;
+                background-color: lightgray;
                 height: 100vh; /* Full page height */
             }
 
@@ -46,7 +46,7 @@
 
             #inner-container-right {
                 position: relative;
-                background-color: lightpink;
+                background-color: white;
                 color: black;
                 padding: 20px;
                 height: 100vh; /* Full page height */
@@ -89,23 +89,23 @@
     <script>
         templates = [];
         function generateFieldsetFromTemplate(section, template) {
-            var fieldset = document.createElement('fieldset');
+            let fieldset = document.createElement('fieldset');
             fieldset.id = section;
             fieldset.className = "item";
-            var legend = document.createElement('legend');
+            let legend = document.createElement('legend');
             legend.innerHTML = section;
             fieldset.appendChild(legend);
 
             if (template && template.fields) {
                 template.fields.forEach(function(field) {
                     field.groups.forEach(function(group) {
-                        var div = document.createElement('div');
-                        var label = document.createElement('label');
+                        let div = document.createElement('div');
+                        let label = document.createElement('label');
                         label.textContent = group.label;
                         div.appendChild(label);
 
                         group.inputs.forEach(function(input) {
-                            var inputElement = document.createElement(input.tag);
+                            let inputElement = document.createElement(input.tag);
 
                             input.attributes.forEach(function(attribute) {
                                 inputElement.setAttribute(attribute.name, attribute.value);
@@ -117,7 +117,7 @@
 
                             if (input.options) {
                                 input.options.forEach(function(option) {
-                                    var optionElement = document.createElement('option');
+                                    let optionElement = document.createElement('option');
                                     optionElement.value = option.value;
                                     optionElement.textContent = option.text;
                                     inputElement.appendChild(optionElement);
@@ -157,12 +157,25 @@
                 let text = document.createTextNode(form_json["text-content"]);
                 div.appendChild(text);
             } else if (data.get('element-type') == "image") {
-                let img = document.createElement("img");
-                div.appendChild(img);
+                let image_input = document.getElementById('image-input');
+                let image_file = image_input.files[0];
+                let image_element = document.createElement("img");  // Create a new img element
+
+                if (image_file) {
+                    let image_url = URL.createObjectURL(image_file);  // Create a blob URL from the file
+                    image_element.src = image_url;
+                    //image_element.style.width = '100%';  // Optional: Set image style
+                    div.appendChild(image_element);  // Append the image to the body or any other container
+                    URL.revokeObjectURL(image_url);  // Optional: Clean up the blob URL after the image is loaded
+                } else {
+                    console.log('No file was selected.');
+                    // Optionally handle the case where no file is selected
+                }
             }
 
             let style = "position: absolute; ";
-            let keysToMerge = ["top", "left", "font-size"]; // Removed "rotate" from this list
+            let simpleKeys = ["top", "left", "font-size"]; // Removed "text-shadow" from this list
+            let simpleKeysWithoutUnits = ["text-shadow"]; // Add more keys without units as needed
             let transformKeys = ["rotate", "skew", "scaleX", "scaleY"]; // Add more transform keys as needed
             let transformKeysWithoutUnits = ["scaleX", "scaleY"]; // Transform keys that don't have units
             let animationKeys = ["blink", "marquee"]; // Add more animation keys as needed
@@ -178,13 +191,15 @@
 
             for (const key in form_json) {
                 if (form_json.hasOwnProperty(key) && key != "element-type" && key != "text-content") {
-                    if (keysToMerge.includes(key)) {
+                    if (simpleKeys.includes(key)) {
                         style += `${key}: ${form_json[key]}${form_json[key + "-unit"]}; `;
                     } else if (transformKeys.includes(key)) {
                         let transformValue = getTransformString(key, form_json[key], form_json[key + "-unit"]);
                         style += `transform: ${transformValue}; `;
                     } else if (animationKeys.includes(key)) {
                         div.classList.add(key);
+                    } else if (simpleKeysWithoutUnits.includes(key)) {
+                        style += `${key}: ${form_json[key]}; `;
                     } else if (!key.endsWith("-unit")) {
                         style += `${key}: ${form_json[key]}; `;
                     }

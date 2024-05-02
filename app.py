@@ -7,6 +7,8 @@ app = Flask(__name__, static_folder='static', template_folder='templates')
 def home():
     return render_template('index.html')
 
+# Json -> Form Templates
+
 @app.route('/content/new', methods=['GET'])
 def new_content():
     return render_template('content.html')
@@ -19,13 +21,7 @@ def new_text():
 def new_image():
     return render_template('image.html')
 
-@app.route('/style/new', methods=['GET'])
-def new_style():
-    return render_template('style.html')
-
-@app.route('/action/new', methods=['GET'])
-def new_action():
-    return render_template('action.html')
+# Json -> CSS Action Templates
 
 @app.route('/action/rotate/new', methods=['GET'])
 def new_action_rotate():

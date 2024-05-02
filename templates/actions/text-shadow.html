@@ -1,0 +1,29 @@
+
+<script>
+    templates["action_template_{{slot_number}}"] = {
+        type: "action",
+        fields: [
+            {
+                name: "text-shadow", 
+                groups: [
+                    {
+                        label: "Text Shadow (offset-x | offset-y | blur-radius | color )",
+                        inputs: [
+                            {
+                                tag: "input", 
+                                attributes: [
+                                    {name: "type", value: "text"},
+                                    {name: "id", value: "text-shadow"}, 
+                                    {name: "name", value: "text-shadow"}
+                                ], 
+                                default_value: "1px 1px 2px black" 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+</script><script>
+    document.getElementById('action-fieldset').parentNode.replaceChild(generateFieldsetFromTemplate("action", templates["action_template_{{slot_number}}"]), document.getElementById('action-fieldset'));
+</script>

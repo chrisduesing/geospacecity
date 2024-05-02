@@ -8,7 +8,7 @@ I had bigger plans for features that would include a database and so I used Pyth
 
 > git clone https://github.com/chrisduesing/geospacecity.git
 
-> cd geospacecity.git
+> cd geospacecity
 
 If you have Python, but not Flask installed then
 
@@ -20,7 +20,7 @@ Once you have Python + Flask
 
 ## Installation for My Classmates
 
-If you don't have Python/Flask at all, and you are a bit bewildered, chances are you are a student in my Internet Artware class. Since we all have Macs, and it is unlikely you are a coder, I will direct these instructions directly to you and try to keep things very clear.
+If you don't have Python/Flask at all, and you are a bit bewildered, chances are you are a student in my Internet Artware class. I will try to make instructions direct and clear. Since I believe we all have Macs, the following makes that assumption.
 
 First, you will want to install a program called Conda. It isn't strictly speaking necessary, but it will save you a lot of trouble later. It basically allows you to install all of the stuff you need for each Python app separately, so if two apps need different code libraries they don't clash with one another.
 
@@ -32,7 +32,7 @@ Otherwise if you have an older mac download:
 
 > https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
 
-In Finder, *move this file from Downloads to your home directory*. In finder it should be on the left with your username and a little house icon next to it under Favorites. If not down under Locations click on the computer name then on the right panel choose MacintoshHD > your username. This is your 'home' directory, and where you want to run the file you just downloaded. For now just move the file here, next we will go in to the terminal.
+In Finder, *move this file from Downloads to your home directory*. Your home directory will be named with your username and a little house icon, it should be on the left pane under Favorites. (If not down under Locations click on the computer name then on the right panel choose MacintoshHD > your username.) In a moment you will run this file here,but for now just move the file here, next we will go in to the terminal.
 
 Everything from here on out will take place in the terminal aka Terminal.app. just search for it in Spotlight or Launchpad and run it.
 

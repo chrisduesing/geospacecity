@@ -84,22 +84,20 @@ form.addEventListener("formdata", (e) => {
         if (image_file) {
             let image_url = URL.createObjectURL(image_file);  // Create a blob URL from the file
             image_element.src = image_url;
-            //image_element.style.width = '100%';  // Optional: Set image style
-            div.appendChild(image_element);  // Append the image to the body or any other container
-            URL.revokeObjectURL(image_url);  // Optional: Clean up the blob URL after the image is loaded
+            div.appendChild(image_element);  
+            // URL.revokeObjectURL(image_url);  // this breaks chrome
         } else {
             console.log('No file was selected.');
-            // Optionally handle the case where no file is selected
         }
     }
 
     let style = "position: absolute; ";
-    let simpleKeys = ["top", "left", "font-size"]; // Removed "text-shadow" from this list
-    let simpleKeysWithoutUnits = ["text-shadow"]; // Add more keys without units as needed
-    let transformKeys = ["rotate", "skew", "scaleX", "scaleY"]; // Add more transform keys as needed
+    let simpleKeys = ["top", "left", "font-size"]; // form fields with a value and unit
+    let simpleKeysWithoutUnits = ["text-shadow"]; // form fields with a value but no unit, or me just being lazy and making the user enter all the unit info inline
+    let transformKeys = ["rotate", "skew", "scaleX", "scaleY"]; // form fields that require a transform() in css
     let transformKeysWithoutUnits = ["scaleX", "scaleY"]; // Transform keys that don't have units
-    let animationKeys = ["blink", "marquee"]; // Add more animation keys as needed
-
+    let animationKeys = ["blink", "marquee"]; // animation keys, or really just classes that get added to the element
+    
     function getTransformString(key, value, unit) {
         if (transformKeysWithoutUnits.includes(key)) {
             style += 'transform-origin: center left; ';
